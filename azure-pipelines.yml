@@ -1,0 +1,18 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install .NET 8 SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'
+
+- script: dotnet restore DeploymentDemo.Product.Api/DeploymentDemo.Product.Api.csproj
+  displayName: 'Restore Product API'
+
+- script: dotnet build DeploymentDemo.Product.Api/DeploymentDemo.Product.Api.csproj --configuration Release --no-restore
+  displayName: 'Build Product API'
