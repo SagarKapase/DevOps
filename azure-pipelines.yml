@@ -17,5 +17,12 @@ steps:
 - script: dotnet build DeploymentDemo.Product.Api/DeploymentDemo.Product.Api.csproj --configuration Release --no-restore
   displayName: 'Build Product API'
 
-- script: dotnet test DeploymentDemo.Product.Api.Tests/DeploymentDemo.Product.Api.Tests.csproj --configuration Release
+- script: dotnet test DeploymentDemo.Product.Api.Tests/DeploymentDemo.Product.Api.Tests.csproj --configuration Release --logger "trx;LogFileName=test-results.trx"
   displayName: 'Run Product API Tests'
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/*.trx'
+    failTaskOnFailedTests: true
